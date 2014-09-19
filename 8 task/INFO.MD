@@ -1,0 +1,1 @@
+http://docs.oracle.com/cd/B28359_01/server.111/b28310/schema005.htm#ADMIN11616 - Oracle Database Administrator's Guide

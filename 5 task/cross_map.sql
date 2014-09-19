@@ -1,0 +1,65 @@
+-- Bearing element
+
+COLUMN GROUP_A FORMAT A80
+COLUMN GROUP_B FORMAT A80
+
+SELECT left_col.AUTHOR_NAME as GROUP_A, right_col.AUTHOR_NAME as GROUP_B
+FROM (
+  SELECT ROWNUM r, AUTHOR_NAME
+  FROM AUTHOR
+  WHERE AUTHOR_ID <=(
+    SELECT MAX(bearing)
+      FROM
+      (
+        SELECT AUTHOR_ID as bearing
+        FROM AUTHOR
+        WHERE ROWNUM <= (SELECT COUNT(*)/2 FROM AUTHOR)
+      )
+  )
+  ORDER BY SYS.DBMS_RANDOM.RANDOM
+) left_col,
+(
+  SELECT ROWNUM r, AUTHOR_NAME
+  FROM AUTHOR
+  WHERE AUTHOR_ID >(
+    SELECT MAX(bearing)
+      FROM
+      (
+        SELECT AUTHOR_ID as bearing
+        FROM AUTHOR
+        WHERE ROWNUM <= (SELECT COUNT(*)/2 FROM AUTHOR)
+      )
+  )
+  ORDER BY SYS.DBMS_RANDOM.RANDOM
+) right_col
+WHERE left_col.r = right_col.r;
+
+--SELECT ROWNUM r, AUTHOR_NAME
+--FROM AUTHOR
+--WHERE AUTHOR_ID >(
+--  SELECT MAX(bearing)
+--    FROM
+--    (
+--      SELECT AUTHOR_ID as bearing
+--      FROM AUTHOR
+--      WHERE ROWNUM <= (SELECT COUNT(*)/2 FROM AUTHOR)
+--    )
+--);
+
+--SELECT left_name
+--FROM (
+--  (SELECT AUTHOR_NAME as left_name
+--  FROM AUTHOR
+--  WHERE ROWNUM <= (SELECT COUNT(*)/2 FROM AUTHOR))
+--  ORDER BY SYS.DBMS_RANDOM.RANDOM
+--);
+
+--SELECT MAX(bearing)
+--FROM
+--(
+--  SELECT AUTHOR_ID as bearing
+--  FROM AUTHOR
+--  WHERE ROWNUM <= (SELECT COUNT(*)/2 FROM AUTHOR)
+--);
+
+--ORDER BY AUTHOR_ID DESC;

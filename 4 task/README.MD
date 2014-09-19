@@ -1,0 +1,1 @@
+http://blog.mgsxx.com/?p=658

@@ -1,0 +1,18 @@
+CREATE OR REPLACE FUNCTION CONCAT_TAGS 
+(
+  NEWS_ID IN NUMBER, 
+  SEPARATOR IN CLOB DEFAULT ',' 
+) RETURN CLOB IS tags CLOB;
+BEGIN
+   FOR tag IN (
+      SELECT TAG.TAG_NAME as tag
+      FROM NEWS_TAG
+      JOIN TAG ON NEWS_TAG.TAG = TAG.TAG_ID
+      WHERE NEWS_TAG.NEWS = NEWS_ID
+   )
+      LOOP
+         tags := CONCAT(tags, tag);
+         tags := tags || SEPARATOR;
+      END LOOP;      
+  RETURN tags;
+END CONCAT_TAGS;
