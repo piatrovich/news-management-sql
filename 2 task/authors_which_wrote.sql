@@ -1,3 +1,4 @@
+CREATE OR REPLACE VIEW AUTHOR_WROTES_VIEW AS
 SELECT publisher "Authors"
 FROM (
   SELECT chars, publisher
@@ -8,7 +9,7 @@ FROM (
     JOIN AUTHOR ON NEWS_AUTHOR.AUTHOR = AUTHOR.AUTHOR_ID
   )
 )
-GROUP BY publisher HAVING SUM(chars) > 50000 AND AVG(chars) > 10000;
+GROUP BY publisher HAVING SUM(chars) > 50 AND AVG(chars) > 100;
 
 --------------------------------------------------
 

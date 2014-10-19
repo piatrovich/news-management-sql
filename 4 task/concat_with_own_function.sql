@@ -1,0 +1,5 @@
+CREATE OR REPLACE VIEW CUSTOM_CONCAT_FN_VIEW AS
+SELECT NEWS_ID AS "News id", 
+       TITLE AS news_title, 
+       CONCAT_TAGS(NEWS_ID,';') AS "News tags" 
+FROM NEWS;

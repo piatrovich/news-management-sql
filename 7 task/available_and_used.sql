@@ -1,6 +1,11 @@
-SELECT TABLESPACE_NAME "Tablespace", total "Used megabytes", available - total "Available meagabytes", total * 100 / available "Used %" 
+CREATE OR REPLACE VIEW TABLESPACE_VIEW AS
+SELECT TABLESPACE_NAME "Tablespace", total "Total megabytes", total - used "Available meagabytes", used * 100 / total "Used %" 
 FROM (
-  SELECT TABLESPACE_NAME, SUM(BYTES) / 1024 / 1024 as total, SUM(MAXBYTES) / 1024 / 1024 as available
+  SELECT TABLESPACE_NAME, SUM(BYTES) / 1024 / 1024 as used, SUM(MAXBYTES) / 1024 / 1024 as total
   FROM DBA_DATA_FILES
+  GROUP BY TABLESPACE_NAME
+    UNION
+  SELECT TABLESPACE_NAME, NVL(SUM(BYTES) / 1024 / 1024, 0) as used, NVL(SUM(MAXBYTES) / 1024 / 1024, 0) as total
+  FROM DBA_TEMP_FILES
   GROUP BY TABLESPACE_NAME
 );
