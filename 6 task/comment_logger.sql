@@ -1,0 +1,17 @@
+CREATE OR REPLACE TRIGGER COMMENT_LOGGER
+BEFORE INSERT ON COMMENTS FOR EACH ROW
+DECLARE 
+  var_description VARCHAR2(4000); 
+BEGIN
+  IF :NEW.TEXT != NULL THEN
+    IF LENGTH(:NEW.TEXT) > 0 THEN
+      var_description := '"TEXT" : "' || :NEW.TEXT || '"';
+    END IF;
+  END IF;
+  IF :NEW.CREATION_DATE != NULL THEN
+    var_description := '; "CREATION_DATE" : "' || :NEW.CREATION_DATE || '"';
+  END IF;
+  var_description := '; "NEWS_ID" : "' || :NEW.NEWS_NEWS_ID || '"';
+  INSERT INTO LOGGING (INSERT_TIME, TABLE_NAME, TEXT)
+  VALUES(SYSDATE, 'TAG', var_description);
+END;
