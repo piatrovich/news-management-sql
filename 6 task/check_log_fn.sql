@@ -1,0 +1,19 @@
+CREATE OR REPLACE FUNCTION ADD_TO_LOG 
+(
+  TEXT IN VARCHAR2,
+  FIELD_NAME IN VARCHAR2,
+  FIELD_VALUE IN VARCHAR2
+) RETURN VARCHAR2 IS report VARCHAR2(4000 CHAR);
+BEGIN
+
+  IF NVL(LENGTH(FIELD_VALUE), 0) > 0 THEN
+    IF NVL(LENGTH(TEXT), 0) > 0 THEN
+      report := TEXT || '; ';
+    END IF;
+    report := report || '"' || FIELD_NAME || '" : "' || FIELD_VALUE || '"';
+  ELSE 
+    report := TEXT;
+  END IF;
+ 
+  RETURN report;
+END ADD_TO_LOG;

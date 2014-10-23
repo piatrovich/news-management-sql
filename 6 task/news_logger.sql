@@ -4,21 +4,11 @@ DECLARE
   report VARCHAR2(4000); 
 BEGIN
 
-  report := '"TITLE" : "' || :NEW.TITLE || '"';
-  
-  IF NVL(LENGTH(:NEW.SHORT_TEXT), 0) > 0 THEN
-    IF report IS NULL THEN
-      report := report || '; ';
-    END IF;
-    report := report || '"SHORT_TEXT" : "' || :NEW.SHORT_TEXT || '"';
-  END IF;
-  
-  IF NVL(LENGTH(:NEW.FULL_TEXT), 0) > 0 THEN
-    IF report IS NULL THEN
-      report := report || '; ';
-    END IF;
-    report := report || '"FULL_TEXT" : "' || :NEW.FULL_TEXT || '"';
-  END IF;
+  report := ADD_TO_LOG(report, 'TITLE', :NEW.TITLE);
+  report := ADD_TO_LOG(report, 'SHORT_TEXT', :NEW.SHORT_TEXT);
+  report := ADD_TO_LOG(report, 'FULL_TEXT', :NEW.FULL_TEXT);
+  report := ADD_TO_LOG(report, 'CREATION_DATE', :NEW.CREATION_DATE);
+  report := ADD_TO_LOG(report, 'MODIFICATION_DATE', :NEW.MODIFICATION_DATE);
   
   INSERT INTO LOGGING (INSERT_TIME, TABLE_NAME, TEXT)
   VALUES(SYSDATE, 'NEWS', report);

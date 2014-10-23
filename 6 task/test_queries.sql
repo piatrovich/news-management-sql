@@ -8,7 +8,7 @@ VALUES ('Oliver Gierke');
 
 -- Testing comment logger
 INSERT INTO COMMENTS (TEXT, CREATION_DATE, NEWS_NEWS_ID) 
-VALUES ('Who is John Galt?', SYSDATE, 290);
+VALUES ('Who is John Galt?', SYSDATE, 390);
 
 -- Testing news logger
 INSERT INTO NEWS (FULL_TEXT, CREATION_DATE, TITLE) 
